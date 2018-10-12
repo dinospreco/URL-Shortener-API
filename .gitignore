@@ -1,6 +1,9 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+### Database ###
+src/main/resources/UrlShortenerDB.mv.db
+
 ### STS ###
 .apt_generated
 .classpath
