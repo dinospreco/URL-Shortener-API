@@ -1,6 +1,9 @@
 package com.infobit.urlshortener.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Data
 @Entity
+@ToString(exclude = {"urls"})
+@EqualsAndHashCode(exclude = {"urls"})
 public class User implements UserDetails {
     public static final List<SimpleGrantedAuthority> AUTHORITIES = Collections.singletonList(new SimpleGrantedAuthority("USER"));
 
@@ -22,6 +27,10 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
+
+    @OneToMany
+    @JsonIgnore
+    private Collection<Url> urls;
 
     public User(String username, String password) {
         this.username = username;

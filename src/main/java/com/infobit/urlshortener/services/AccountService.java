@@ -4,13 +4,12 @@ import com.infobit.urlshortener.dao.UserRepository;
 import com.infobit.urlshortener.dto.AccountDTO;
 import com.infobit.urlshortener.dto.RegistrationDTO;
 import com.infobit.urlshortener.entities.User;
+import com.infobit.urlshortener.utility.AlphanumericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 @Service
 public class AccountService {
@@ -29,7 +28,7 @@ public class AccountService {
                     HttpStatus.CONFLICT);
         }
 
-        String generatedPassword = generateAlphaNumericPassword();
+        String generatedPassword = AlphanumericGenerator.generateAlphaNumericString8CharsLong();
         User newUser = new User(accountDTO.getAccountId(),passwordEncoder.encode(generatedPassword));
         User savedUser = userRepository.save(newUser);
 
@@ -48,21 +47,5 @@ public class AccountService {
 
     private boolean isAccountExisting(String username) {
         return userRepository.getUserByUsername(username) != null;
-    }
-
-    private String generateAlphaNumericPassword() {
-        String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Random rnd = new Random();
-        int length = 8;
-
-        StringBuilder stringBuilder = new StringBuilder(length);
-        for (int i = 0 ; i < length ; i++) {
-            stringBuilder.append(
-                    characters.charAt(
-                            rnd.nextInt(characters.length())
-                    )
-            );
-        }
-        return stringBuilder.toString();
     }
 }
