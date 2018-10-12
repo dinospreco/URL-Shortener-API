@@ -39,7 +39,8 @@ public class ShortenerService {
                 shortRequestDTO.getUrl(),
                 generateUniqueShortUrl(10),
                 shortRequestDTO.getRedirectType(),
-                getLoggedUser(request)
+                getLoggedUser(request),
+                0L
         );
 
         Url savedUrl = urlRepository.save(url);

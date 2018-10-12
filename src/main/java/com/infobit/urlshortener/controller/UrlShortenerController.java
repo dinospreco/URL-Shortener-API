@@ -20,7 +20,7 @@ public class UrlShortenerController {
     private ShortenerService shortenerService;
 
     @PostMapping
-    public ResponseEntity<ShortResponseDTO> test(@RequestBody ShortRequestDTO shortRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<ShortResponseDTO> shortUrl(@RequestBody ShortRequestDTO shortRequestDTO, HttpServletRequest request) {
         return shortenerService.shortUrl(shortRequestDTO, request);
     }
 

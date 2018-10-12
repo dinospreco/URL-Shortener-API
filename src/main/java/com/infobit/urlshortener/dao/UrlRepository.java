@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface UrlRepository extends JpaRepository<Url, Long> {
     Url getUrlByShortUrl(String shortUrl);
-       Collection<Url> getAllByUserId(Long userId);
+    Collection<Url> getAllByUserId(Long userId);
 }

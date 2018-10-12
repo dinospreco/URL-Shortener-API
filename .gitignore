@@ -3,6 +3,7 @@
 
 ### Database ###
 src/main/resources/UrlShortenerDB.mv.db
+src/main/resources/UrlShortenerDB.trace.db
 
 ### STS ###
 .apt_generated

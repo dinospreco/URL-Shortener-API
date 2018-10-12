@@ -19,10 +19,11 @@ public class Url {
     @ManyToOne
     private User user;
 
-    public Url(String originalUrl, String shortUrl,int redirectType, User user) {
+    public Url(String originalUrl, String shortUrl,int redirectType, User user, Long visits) {
         this.originalUrl = originalUrl;
         this.shortUrl = shortUrl;
         this.redirectType = redirectType;
         this.user = user;
+        this.visits = visits;
     }
 }
