@@ -1,5 +1,6 @@
 package com.infobit.urlshortener.controller;
 
+import com.infobit.urlshortener.dto.AccountDTO;
 import com.infobit.urlshortener.dto.RegistrationDTO;
 import com.infobit.urlshortener.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<RegistrationDTO> register(@RequestBody String accountId) {
-        return accountService.register(accountId);
+    public ResponseEntity<RegistrationDTO> register(@RequestBody AccountDTO accountDTO) {
+        return accountService.register(accountDTO);
     }
 }

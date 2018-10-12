@@ -1,9 +1,9 @@
 package com.infobit.urlshortener.services;
 
 import com.infobit.urlshortener.UrlshortenerApplication;
-import com.infobit.urlshortener.dao.AccountDAO;
+import com.infobit.urlshortener.dto.AccountDTO;
 import com.infobit.urlshortener.dto.RegistrationDTO;
-import com.infobit.urlshortener.entities.Account;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,49 +24,54 @@ public class AccountServiceTest {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private AccountDAO accountDAO;
+    private ResponseEntity<RegistrationDTO> newAccountResponse;
+    private ResponseEntity<RegistrationDTO> existingAccountResponse;
 
-    @Test
-    public void givenLength_whenGeneratingPassword_thenRandomAlphaNumericStringIsReturned() {
-        String generatedPassword = accountService.generateAlphaNumericPassword(8);
-        //This regex checks  non-alphanumeric characters
-        assertFalse(generatedPassword.matches("^.*[^a-zA-Z0-9].*$"));
+    @Before
+    public void setUp()  {
+        newAccountResponse = accountService.register(new AccountDTO("newAccountId"));
+        accountService.register(new AccountDTO("existingAccountId"));
+        existingAccountResponse = accountService.register(new AccountDTO("existingAccountId"));
     }
 
     @Test
-    public void givenLength_whenGeneratingPassword_thenRandomStringEightCharactersLongIsReturned() {
-        String generatedPassword = accountService.generateAlphaNumericPassword(8);
-        assertEquals(8, generatedPassword.length());
+    public void givenNewAccountId_whenRegisteringAccount_thenResponseEntitySuccessIsTrue() {
+        assertTrue(newAccountResponse.getBody().isSuccess());
     }
 
     @Test
-    public void givenAccountId_whenCheckingIfAccountIdExists_thenFalseIsReturned() {
-        assertFalse(accountService.isAccountExisting("accountId"));
+    public void givenNewAccountId_whenRegisteringAccount_thenResponseEntityDescriptionIsConfirmation() {
+        assertEquals("Your account is opened", newAccountResponse.getBody().getDescription());
     }
 
     @Test
-    public void givenExistingAccountId_whenCheckingIfAccountIdExists_thenTrueIsReturned() {
-        accountDAO.save(new Account("accountId","password"));
-        assertTrue(accountService.isAccountExisting("accountId"));
+    public void givenNewAccountId_whenRegisteringAccount_thenResponseEntityPasswordIsNotNull() {
+        assertNotNull(newAccountResponse.getBody().getPassword());
     }
 
     @Test
-    public void givenAccountId_whenRegisteringAccount_thenResponseEntitySuccessWithRegistrationDTOIsReturned() {
-        ResponseEntity<RegistrationDTO> returnedRE = accountService.register("accountId");
-
-        assertTrue(returnedRE.getBody().isSuccess());
-        assertEquals("Your account is opened",returnedRE.getBody().getDescription());
-        assertNotNull(returnedRE.getBody().getPassword());
+    public void givenNewAccountId_whenRegisteringAccount_thenResponseEntityHasAlphanumericPassword() {
+        //Regex matches for non-alphanumeric characters and spaces
+        assertFalse(newAccountResponse.getBody().getPassword().matches("^.*[^a-zA-Z0-9].*$"));
     }
 
     @Test
-    public void givenExistingAccountId_whenRegisteringAccount_thenResponseEntityFailureWithRegistrationDTOIsReturned() {
-        accountDAO.save(new Account("accountId","password"));
-        ResponseEntity<RegistrationDTO> returnedRE = accountService.register("accountId");
+    public void givenNewAccountId_whenRegisteringAccount_thenResponseEntityHas8CharsLongPassword() {
+        assertEquals(8, newAccountResponse.getBody().getPassword().length());
+    }
 
-        assertFalse(returnedRE.getBody().isSuccess());
-        assertEquals("AccountId already exists",returnedRE.getBody().getDescription());
-        assertNull(returnedRE.getBody().getPassword());
+    @Test
+    public void givenExistingAccountId_whenRegisteringAccount_thenResponseEntitySuccessIsFalse() {
+        assertFalse(existingAccountResponse.getBody().isSuccess());
+    }
+
+    @Test
+    public void givenExistingAccountId_whenRegisteringAccount_thenResponseEntityDescriptionIsFailure() {
+        assertEquals("AccountId already exists", existingAccountResponse.getBody().getDescription());
+    }
+
+    @Test
+    public void givenExistingAccountId_whenRegisteringAccount_thenResponseEntityPasswordIsNull() {
+        assertNull(existingAccountResponse.getBody().getPassword());
     }
 }

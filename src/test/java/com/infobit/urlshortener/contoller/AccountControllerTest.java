@@ -1,8 +1,10 @@
 package com.infobit.urlshortener.contoller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infobit.urlshortener.UrlshortenerApplication;
-import com.infobit.urlshortener.dao.AccountDAO;
-import com.infobit.urlshortener.entities.Account;
+import com.infobit.urlshortener.dao.UserRepository;
+import com.infobit.urlshortener.dto.AccountDTO;
+import com.infobit.urlshortener.entities.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +35,10 @@ public class AccountControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private AccountDAO accountDAO;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Before
     public void setUp() {
@@ -43,13 +48,13 @@ public class AccountControllerTest {
     @Test
     public void givenAccountId_whenAccountIsRegistering_then201IsReceived() throws Exception{
         //Given
-        String accountId = "accountId";
+        AccountDTO accountDTO = new AccountDTO("accountId");
 
         //When
         mockMvc.perform(
                 post("/account")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(accountId)
+                        .content(objectMapper.writeValueAsString(accountDTO))
         )
                 //Then
                 .andExpect(status().isCreated());
@@ -57,14 +62,14 @@ public class AccountControllerTest {
     @Test
     public void givenExistingAccountId_whenAccountIsRegistering_then409IsReceived() throws Exception{
         //Given
-        String accountId = "accountId";
-        accountDAO.save(new Account(accountId,"password"));
+        AccountDTO accountDTO = new AccountDTO("accountId");
+        userRepository.save(new User(accountDTO.getAccountId(),"password"));
 
         //When
         mockMvc.perform(
                 post("/account")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(accountId)
+                        .content(objectMapper.writeValueAsString(accountDTO))
         )
                 //Then
                 .andExpect(status().isConflict());
@@ -73,13 +78,13 @@ public class AccountControllerTest {
     @Test
     public void givenAccountId_whenAccountIsRegistering_thenSuccessResponseIsReceived() throws Exception {
         //Given
-        String accountId = "accountId";
+        AccountDTO accountDTO = new AccountDTO("accountId");
 
         //When
         mockMvc.perform(
                 post("/account")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(accountId)
+                        .content(objectMapper.writeValueAsString(accountDTO))
         )
                 //Then
                 .andExpect(status().isCreated())
@@ -92,14 +97,14 @@ public class AccountControllerTest {
     @Test
     public void givenExistingAccountId_whenAccountIsRegistering_thenFailureResponseIsReceived() throws Exception {
         //Given
-        String accountId = "accountId";
-        accountDAO.save(new Account(accountId,"password"));
+        AccountDTO accountDTO = new AccountDTO("accountId");
+        userRepository.save(new User(accountDTO.getAccountId(),"password"));
 
         //When
         mockMvc.perform(
                 post("/account")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(accountId)
+                .content(objectMapper.writeValueAsString(accountDTO))
         )
                 //Then
                 .andExpect(status().isConflict())
