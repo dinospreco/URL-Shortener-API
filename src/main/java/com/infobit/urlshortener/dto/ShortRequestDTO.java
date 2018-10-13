@@ -1,13 +1,9 @@
 package com.infobit.urlshortener.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
-@ToString
+@Data
 public class ShortRequestDTO {
     @JsonProperty("url")
     private String url;

@@ -31,7 +31,10 @@ public class ShortenerService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        if (shortRequestDTO.getRedirectType() < 301 || shortRequestDTO.getRedirectType() > 302) {
+        if (shortRequestDTO.getRedirectType() == 0) {
+            shortRequestDTO.setRedirectType(301);
+        }
+        else if (shortRequestDTO.getRedirectType() < 301 || shortRequestDTO.getRedirectType() > 302) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
