@@ -1,0 +1,8 @@
+com.infobip.urlshortener
+com.infobip.urlshortener.configuration
+com.infobip.urlshortener.controller
+com.infobip.urlshortener.dao
+com.infobip.urlshortener.dto
+com.infobip.urlshortener.entities
+com.infobip.urlshortener.services
+com.infobip.urlshortener.utility

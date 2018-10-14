@@ -42,6 +42,12 @@ public class AccountService {
      */
     public ResponseEntity<RegistrationDTO> register(AccountDTO accountDTO) {
 
+        if (accountDTO.getAccountId() == null) {
+            return new ResponseEntity<>(
+                    new RegistrationDTO(false, "Bad request", null),
+                    HttpStatus.BAD_REQUEST);
+        }
+
         if (isAccountExisting(accountDTO.getAccountId())) {
             return new ResponseEntity<>(
                     new RegistrationDTO(false, "AccountId already exists", null),

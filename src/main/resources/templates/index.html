@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortener Help Page</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <br />
+    <br />
+
+    <jumbotron>
+        <h1>URL SHORTENER</h1>
+        <p>
+            This is HTTP Service for creating short url
+            @author Dino Spreco
+            @version 1.0
+            <a href="JavaDoc/index.html">Java Documentation</a>
+        </p>
+    </jumbotron>
+
+    <br />
+
+    <div class="panel-group" id="accordion">
+
+        <div class="faqHeader">RUNNING THE API</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">How to run API</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul>
+                        <li>Open Command Prompt and navigate to urlshortener-1.0.jar</li>
+                        <li>Run command: java -jar urlshortener-1.0.jar</li>
+                        <li>Wait until finishes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">What do I need to Run</a>
+                </h4>
+            </div>
+            <div id="collapseTen" class="panel-collapse collapse">
+                <div class="panel-body">
+                    You need Java SE Runtime Environment 8 or grater.
+                    <a href="https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">Download</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="faqHeader">USAGE</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Do I need account</a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                    YES!
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">How can I create account</a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                        <li>
+                            Send POST request to the rootUrl/account (http://localhost:8080/account) with JSON
+                            <code>{ "AccountId":"myAccountId" }</code>
+                        </li>
+                        <li>
+                            In Response you will get JSON object:
+                            <code>{"success": true, "description": "Your account is opened", "password": "JmtFDnuQ"}</code>
+                        </li>
+                        <li>
+                            In case that account already exists you will get:
+                            <code>{"success": false, "description": "Accoutn already exists", "password": null}</code>
+                        </li>
+                        <li>
+                            In case of a bad request (E.g. mistype AcountId) you will get:
+                            <code>{"success": false, "description": "Bad Request", "password": null}</code>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="faqHeader">SHORTENING URL</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">How do i get my short url</a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                        <li>Set Authorization header: Basic Auth and enter your credentials</li>
+                        <li>
+                            Send POST request to the rootUrl/register (http://localhost:8080/register) with JSON data
+                            <code>{ "url":"reallyLongUrl" , "redirectType":301 }</code>
+                            redirectType is optional, default is 301
+                        </li>
+                        <li>
+                            In response you will get JSON object:
+                            <code>{ "shortUrl": "http://localhost:8080/4l72U87RGn" }</code>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="faqHeader">STATISTICS</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSix">What are statistics</a>
+                </h4>
+            </div>
+            <div id="collapseSix" class="panel-collapse collapse">
+                <div class="panel-body">
+                    API track how many times you visited your short url
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">How to get statistics</a>
+                </h4>
+            </div>
+            <div id="collapseSeven" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                        <li>Set Authorization header: Basic Auth and enter your credentials</li>
+                        <li>
+                            Send GET request to the rootUrl/statistic/myAccountId
+                            <code>(http://localhost:8080/statistic/myAccountId)</code>
+                        </li>
+                            <li>
+                                In response you will get JSON object, map with key:value
+                                <ul>
+                                    <li>key = URL</li>
+                                    <li>value = Number of visits</li>
+                                </ul>
+                                <code>
+                                    {
+                                    "www.someverylongurl.url/moreoftheurl" : 10,
+                                    "www.someotherverylongurl.url/moreoftheotherurl: 3
+                                    }
+                                </code>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+</div>
+
+        <div class="faqHeader">JSON Object</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">How do I send JSON data</a>
+                </h4>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                        <li>Using Postman <a href="https://www.getpostman.com/">Download</a></li>
+                        <li><a href="https://www.joecolantonio.com/12-open-source-api-testing-tools-rest-soap-services/">Other API testing tools</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+</div>
+</div>
+
+<style>
+    .faqHeader {
+        font-size: 27px;
+        margin: 20px;
+    }
+
+    .panel-heading [data-toggle="collapse"]:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e072"; /* "play" icon */
+        float: right;
+        color: #F58723;
+        font-size: 18px;
+        line-height: 22px;
+        /* rotate "play" icon from > (right arrow) to down arrow */
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    .panel-heading [data-toggle="collapse"].collapsed:after {
+        /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg);
+        color: #454444;
+    }
+</style>
+</body>
+</html>
