@@ -3,7 +3,7 @@ This is HTTP Service for creating short url @author Dino Spreco @version 1.0
 
 ## In App Help Page Uri (With JavaDoc): /help
 
-## RUNNING THE API
+#### RUNNING THE API
 ### How to run API
  - Open Command Prompt and navigate to urlshortener-1.0.jar
  - Run command: java -jar urlshortener-1.0.jar
