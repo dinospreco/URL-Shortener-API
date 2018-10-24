@@ -23,6 +23,13 @@ public interface UrlRepository extends JpaRepository<Url, Long> {
     Url getUrlByShortUrl(String shortUrl);
 
     /**
+     * Retrieves {@link com.infobip.urlshortener.entities.Url} from database based on originalUrl param
+     * @param originalUrl
+     * @return
+     */
+    Url getUrlByOriginalUrl(String originalUrl);
+
+    /**
      * Retreives list of {@link com.infobip.urlshortener.entities.Url} registered by {@link com.infobip.urlshortener.entities.User}
      * @param user
      * @return

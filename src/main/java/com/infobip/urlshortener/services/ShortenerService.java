@@ -50,12 +50,16 @@ public class ShortenerService {
         if (!isUrlValid(shortRequestDTO.getUrl())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
         if (shortRequestDTO.getRedirectType() == 0) {
             shortRequestDTO.setRedirectType(301);
         }
         else if (shortRequestDTO.getRedirectType() < 301 || shortRequestDTO.getRedirectType() > 302) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        Url existingUrl = getUrlByOriginalUrl(shortRequestDTO);
+        if (existingUrl != null) {
+            return ResponseEntity.status(existingUrl.getRedirectType()).body(new ShortResponseDTO(getBaseUrl(request) + existingUrl.getShortUrl()));
         }
 
         Url url = new Url(
@@ -132,5 +136,14 @@ public class ShortenerService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * Gets {@link com.infobip.urlshortener.entities.Url} to check if original link in request is alreday shorted
+     * @param shortRequestDTO
+     * @return
+     */
+    private Url getUrlByOriginalUrl(ShortRequestDTO shortRequestDTO) {
+        return urlRepository.getUrlByOriginalUrl(shortRequestDTO.getUrl());
     }
 }
