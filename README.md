@@ -1,6 +1,9 @@
 # URL SHORTENER
-This is HTTP Service for creating short url @author Dino Spreco @version 1.0 Java Documentation
+### This is HTTP Service for creating short url 
 
+@author Dino Spreco 
+
+@version 1.0.1
 
 ## RUNNING THE API
 ### How to run API

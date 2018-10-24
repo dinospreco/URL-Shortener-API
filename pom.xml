@@ -5,7 +5,7 @@
 
     <groupId>com.infobit</groupId>
     <artifactId>urlshortener</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>urlshortener</name>
